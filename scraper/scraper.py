@@ -105,7 +105,7 @@ def query_twitter(TW_QUERY, RELEVANT_REGION, START_TIME, END_TIME, SEVEN_DAYS=Fa
                     qt = client.get_tweet(thist.data["id"], tweet_fields=["text"])
 
                     mergetweet = (
-                        newtweet["text"].strip() + " " + qt.data["text"].strip()
+                            newtweet["text"].strip() + " " + qt.data["text"].strip()
                     )
                     mergetweet = mergetweet.replace("\n", "")
 
@@ -287,7 +287,8 @@ if __name__ == "__main__":
 
     else:
         print("Less than 1 parameter passed; Running manually ")
-        dotenv.load_dotenv()  # imprt out enviroment variables
+
+        dotenv.load_dotenv()  # import out enviroment variables
 
         API_KEY = os.environ.get("API_KEY")  # consumer
         API_SECRET_KEY = os.environ.get("API_SECRET_KEY")  # consumer
@@ -301,6 +302,8 @@ if __name__ == "__main__":
         SEVEN_DAYS = True
 
     # twitter api
+    print('Pause before running code')
+
     client = tw.Client(bearer_token=BEARER_TOKEN)
     final_results = batch_scrape(SEVEN_DAYS)
 
@@ -312,13 +315,12 @@ if __name__ == "__main__":
         print("============================================================================")
 
         print(f"Pre relevancy filter: {len(final_results)}")
-        final_results = model.relevance_model(final_results)    # filters out irrelevant tweets
+        final_results = model.relevance_model(final_results)  # filters out irrelevant tweets
         print(f"Relevancy filter applied: {len(final_results)}")
         final_results = model.sentiment_model(final_results)  # adding sentiment model scores
 
         print("============================================================================")
         print("============================================================================")
-
 
     if n > 1:
         git_file = "data/processed/twitter/github_actions"
